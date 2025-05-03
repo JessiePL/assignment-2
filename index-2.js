@@ -189,6 +189,7 @@ async function startServer() {
     if (!req.session.authenticated) {
           res.redirect("/login");
           return;
+          
      }  
     const name = req.session.name;
     const randomIndex = Math.floor(Math.random()*4)+1;
