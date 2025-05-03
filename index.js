@@ -10,7 +10,7 @@ const { connectToDatabase } = require("./databaseConnection");
 const saltRounds = 12;
 const port = process.env.PORT || 3000;
 const app = express();
-const expireTime = 24 * 60 * 60 * 1000;
+const expireTime = 1 * 60 * 60 * 1000;
 
 const mongodb_host = process.env.MONGODB_HOST;
 const mongodb_user = process.env.MONGODB_USER;
