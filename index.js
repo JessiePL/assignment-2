@@ -61,7 +61,7 @@ async function startServer() {
       let errorMsg = !name ? "Name is required"
                     :!email ? "Email is required"
                     :"Password is required"
-      return res.status(400).render("signup", {error:errorMsg});
+      return res.status(400).render("signup", {error:errorMsg, currentPath:"/login"});
     }
 
 
@@ -75,7 +75,7 @@ async function startServer() {
     if (validationResult.error) {
       return res.status(400).render("signup", {
         error: validationResult.error.details[0].message
-      });
+      ,currentPath:"/login"});
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -105,13 +105,13 @@ async function startServer() {
 
     const validationResult = schema.validate({ email, password });
     if (validationResult.error) {
-      return res.status(400).render("login", {error:"Invalid email or password format"});
+      return res.status(400).render("login", {error:"Invalid email or password format",currentPath:"/login"});
     }
 
     const user = await userCollection.findOne({email});
     if(!user || !(await bcrypt.compare(password, user.password)))
     {
-      return res.status(401).render("login", {error:"Invalid email or password"});
+      return res.status(401).render("login", {error:"Invalid email or password", currentPath:"/login"});
     }
 
     req.session.authenticated = true;
