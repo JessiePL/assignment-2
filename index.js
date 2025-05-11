@@ -44,12 +44,20 @@ async function startServer() {
     })
   );
 
+  const navLinks = [
+          { name: "Home", path: "/" },
+          { name: "Cats", path: "/members" },
+          { name: "Login", path: "/login" },
+          { name: "Admin", path: "/admin" },
+          { name: "404", path: "/404" }
+  ];
+
   app.get("/", (req, res) => {
-    res.render('index', {user:req.session.user, currentPath:"/"});
+    res.render('index', {user:req.session.user, currentPath:"/", navLinks});
   });
 
   app.get("/signup", (req, res) => {
-    res.render('signup',{error:null, currentPath: "/login"});
+    res.render('signup',{error:null, currentPath: "/login", navLinks});
   });
 
   app.post("/submitUser", async (req, res) => {
@@ -61,7 +69,7 @@ async function startServer() {
       let errorMsg = !name ? "Name is required"
                     :!email ? "Email is required"
                     :"Password is required"
-      return res.status(400).render("signup", {error:errorMsg, currentPath:"/login"});
+      return res.status(400).render("signup", {error:errorMsg, currentPath:"/login", navLinks});
     }
 
 
@@ -74,8 +82,9 @@ async function startServer() {
     const validationResult = schema.validate({ name, email, password });
     if (validationResult.error) {
       return res.status(400).render("signup", {
-        error: validationResult.error.details[0].message
-      ,currentPath:"/login"});
+      error: validationResult.error.details[0].message,
+      currentPath:"/login",
+      navLinks});
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -91,7 +100,7 @@ async function startServer() {
 
   app.get("/login", (req,res)=>
   {
-    res.render('login', {error:null, currentPath:"/login"});
+    res.render('login', {error:null, currentPath:"/login", navLinks});
   })
 
   app.post("/loggingin", async (req, res) => {
@@ -105,13 +114,13 @@ async function startServer() {
 
     const validationResult = schema.validate({ email, password });
     if (validationResult.error) {
-      return res.status(400).render("login", {error:"Invalid email or password format",currentPath:"/login"});
+      return res.status(400).render("login", {error:"Invalid email or password format",currentPath:"/login", navLinks});
     }
 
     const user = await userCollection.findOne({email});
     if(!user || !(await bcrypt.compare(password, user.password)))
     {
-      return res.status(401).render("login", {error:"Invalid email or password", currentPath:"/login"});
+      return res.status(401).render("login", {error:"Invalid email or password", currentPath:"/login", navLinks});
     }
 
     req.session.authenticated = true;
@@ -140,20 +149,21 @@ function isAdmin(req,res,next){
     return res.status(403).render("admin", 
       {
         error:"You are not athorized", 
-        currentPath:"/admin"
+        currentPath:"/admin",
+        navLinks
       });
    } 
    next();
 }
 
 app.get("/members", isAuthenticated, (req, res) => {
-  res.render("cats",{currentPath:"/members"});
+  res.render("cats",{currentPath:"/members", navLinks});
 });
 
 
 app.get("/admin", isAuthenticated, isAdmin, async(req, res)=>{
   const users = await userCollection.find({}).toArray();
-  res.render("admin", {users, error:null, currentPath:"/admin"});
+  res.render("admin", {users, error:null, currentPath:"/admin", navLinks});
 });
 
 app.get("/admin/demote/:email", isAuthenticated, isAdmin, async(req,res)=>{
@@ -192,7 +202,7 @@ app.get("/logout", (req, res) => {
   app.use(express.static(__dirname + "/public"));
 
   app.get("*", (req, res) => {
-    res.render("404",{currentPath:"/404"});
+    res.render("404",{currentPath:"/404", navLinks});
   });
 
   app.listen(port, () => {

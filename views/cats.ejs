@@ -3,9 +3,9 @@
 <div class="container mt-4">
           <h2 class="text-center mb-4">Cats</h2> 
           <div class="row g-4">
-                    <% const images=['cat1.jpg', 'cat2.jpg','cat3.jpg','cat4.jpg']; %>
+                    <% const images=['cat1.jpg', 'cat2.jpg','cat3.jpg']; %>
                     <% images.forEach(img => { %>
-                              <div class = "col-12 col-sm-6 col-md-3">
+                              <div class = "col-12 col-sm-6 col-md-4">
                                         <img src="/<%= img %>" class="card-img-top" alt="Cat"/>
                               </div>
                     <%})%>

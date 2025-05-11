@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
   html, body {
-    height: 100%;
+    height: 80%;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -32,11 +32,11 @@
     </button>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link <%= (currentPath === '/')?'active':''%>" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link <%= (currentPath === '/members')?'active':''%>" href="/members">Cats</a></li>
-        <li class="nav-item"><a class="nav-link <%= (currentPath === '/login')?'active':''%>" href="/login">Login</a></li>
-        <li class="nav-item"><a class="nav-link <%= (currentPath === '/admin')?'active':''%>" href="/admin">Admin</a></li>
-        <li class="nav-item"><a class="nav-link <%= (currentPath === '/404')?'active':''%>" href="/404">404</a></li>
+        <% navLinks.forEach(link => { %>
+            <li class="nav-item">
+              <a class = "nav-link <%= (currentPath === link.path)? 'active' : ''%>" href = "<%=link.path%>"><%=link.name%></a>
+            </li>
+        <% }) %>
       </ul>
     </div>
   </div>
