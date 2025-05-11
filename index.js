@@ -49,7 +49,7 @@ async function startServer() {
           { name: "Cats", path: "/members" },
           { name: "Login", path: "/login" },
           { name: "Admin", path: "/admin" },
-          { name: "404", path: "/404" }
+          { name: "404", path: "/doesnotexist" }
   ];
 
   app.get("/", (req, res) => {
@@ -202,7 +202,7 @@ app.get("/logout", (req, res) => {
   app.use(express.static(__dirname + "/public"));
 
   app.get("*", (req, res) => {
-    res.render("404",{currentPath:"/404", navLinks});
+    res.render("404",{currentPath:"/doesnotexist", navLinks});
   });
 
   app.listen(port, () => {
