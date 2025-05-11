@@ -1,0 +1,15 @@
+<%- include("templates/header") %>
+
+          <div class="container mt-4 text-center">
+                    <% if(user){ %>
+                              <h2>Hello, <%= user.name %>!</h2>
+                              <a href="/members" class="btn btn-primary mt-e">Go to Members Page</a>
+                              <a href="/logout" class="btn btn-primary mt-e">Logout</a>
+                    <% } else { %>
+                              <h2>Welcome!</h2>
+                              <a href="/signup" class="btn btn-primary mt-e">Sign Up</a>
+                              <a href="/login" class="btn btn-primary mt-e">Log In</a>
+                    <% } %>
+          </div>
+
+<%- include("templates/footer") %>

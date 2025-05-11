@@ -1,0 +1,26 @@
+<%- include("templates/header") %>
+
+<div class="container mt-4 text-center">
+          <% if(error) {%>
+                    <div class="alert alert-danger"><%=error%></div>
+                    <a href="/login">Try again</a>
+          <% } else { %>
+          <h2>Log In</h2>
+          <form method ="POST" action="/loggingin">
+                    <div class="mb-3">
+                              <label for="email" class="form-label">Email Address</label>
+                              <input type="email" class="form-control" id="email" name="email"/>
+                    </div>
+                    <div class="mb-3">
+                              <label for="password" class="form-label">Password</label>
+                              <input type="password" class="form-control" id="password" name="password"/>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+
+          </form>
+          <%}%>
+</div>
+
+
+<%- include("templates/footer") %>
